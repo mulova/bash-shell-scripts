@@ -1,0 +1,4 @@
+git prune
+git gc --aggressive
+git repack -a
+git prune-packed

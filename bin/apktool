@@ -1,0 +1,2 @@
+java -jar ~/dev/apktool_2.4.1.jar -f d $1
+

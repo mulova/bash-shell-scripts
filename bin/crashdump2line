@@ -1,0 +1,68 @@
+#!/bin/bash
+shopt -s nocasematch
+NDK_ROOT="/Applications/Unity/Hub/Editor/2019.3.14f1/PlaybackEngines/AndroidPlayer/NDK"
+NDK_TOOLCHAIN="$NDK_ROOT/toolchains"
+PLATFORM=arm64-v8a
+
+while [[ $# > 0 ]]
+do
+key="$1"
+case $key in
+    -f|--file)
+    DUMP="$2"
+    shift # past argument
+    ;;
+    -p|--platform)
+    if [ "$2" == "32" ]; then
+        PLATFORM=armeabi-v7a
+    else
+        PLATFORM=arm64-v8a
+    fi
+    shift # past argument
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+shift # past argument or value
+done
+
+if [ "$PLATFORM" == "armeabi-v7a" ]; then
+    ADDR2LINE="$NDK_TOOLCHAIN/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin/arm-linux-androideabi-addr2line"
+else
+    ADDR2LINE="$NDK_TOOLCHAIN/aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin/aarch64-linux-android-addr2line"
+fi
+
+#ANDROID_SYMBOL_PATH=/Applications/Unity/Hub/Editor/2018.2.20f1/PlaybackEngines/AndroidPlayer/Variations/il2cpp/Release/Symbols/armeabi-v7a/libunity.sym.so
+ANDROID_SYMBOL_PATH=./$PLATFORM
+CRASHED=false
+
+echo "ADDR2LINE=$ADDR2LINE"
+
+while read LINE
+do
+    if [[ $CRASHED == "false" ]]; then
+        if [[ "$LINE" == *"(crashed)"* ]]; then
+            CRASHED=true
+	fi
+    else
+        if [[ "$LINE" =~ ^Thread.* ]]; then
+            exit 0
+	fi
+	if [[ "$LINE" == *"libunity.so +"* ]]; then
+	    addr=$(echo $LINE| sed 's/.*libunity\.so \+ \(.*\)/\1/'; echo $1)
+            printf ">> %s  " "$LINE"
+	    $ADDR2LINE -a -p -f -C -e $ANDROID_SYMBOL_PATH/libunity.so $addr | head -n 1
+	elif [[ "$LINE" == *"libmain.so +"* ]]; then
+	    addr=$(echo $LINE| sed 's/.*libmain\.so \+ \(.*\)/\1/'; echo $1)
+            printf ">> %s  " "$LINE"
+	    $ADDR2LINE -a -p -f -C -e $ANDROID_SYMBOL_PATH/libmain.so $addr | head -n 1
+	elif [[ "$LINE" == *"libil2cpp.so +"* ]]; then
+	    addr=$(echo $LINE| sed 's/.*libil2cpp\.so \+ \(.*\)/\1/'; echo $1)
+            printf ">> %s  " "$LINE"
+	    $ADDR2LINE -a -p -f -C -e $ANDROID_SYMBOL_PATH/libil2cpp.so $addr | head -n 1
+	elif [[ "$LINE" =~ ^[[:digit:]]+ ]]; then
+            printf ">> %s\n" "$LINE"
+	fi
+    fi
+done < $DUMP

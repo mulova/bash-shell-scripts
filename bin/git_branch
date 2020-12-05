@@ -1,0 +1,37 @@
+#!/bin/bash
+#git name-rev HEAD | awk '{print $2}'
+shopt -s nocasematch
+
+while [[ $# > 0 ]]
+do
+key="$1"
+case $key in
+    -h|--hash)
+    HASH="$2"
+    shift # past argument
+    ;;
+    -b|--branch)
+    HASH=$(git rev-parse $2)
+    shift # past argument
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+shift # past argument or value
+done
+if [[ -z "$HASH" ]]; then
+    HASH=HEAD
+fi
+BRANCH=
+while read line
+do
+    if [[ "$line" =~ ^origin/([a-zA-Z\./-_]+)$ ]]; then
+        if [[ -z "$BRANCH" ]]; then
+            BRANCH=${BASH_REMATCH[1]}
+        else
+            BRANCH=$BRANCH,${BASH_REMATCH[1]}
+        fi
+    fi
+done < <(git branch -r --contains $HASH)
+echo $BRANCH

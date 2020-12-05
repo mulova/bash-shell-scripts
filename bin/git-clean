@@ -1,0 +1,3 @@
+#!/bin/sh
+git clean -df $1
+git reset --hard $1

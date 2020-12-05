@@ -1,0 +1,11 @@
+#!/bin/bash
+BRANCHES=$(git branch)
+while read b
+do
+    echo BRANCH="$b"
+    if [[ "$b" == *"*"* ]];then
+        git pull origin --prune
+    else
+        git fetch origin $b:$b
+    fi
+done <<< "$BRANCHES"

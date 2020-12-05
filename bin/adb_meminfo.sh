@@ -1,0 +1,1 @@
+adb shell dumpsys meminfo com.linecorp.lgpjr -d

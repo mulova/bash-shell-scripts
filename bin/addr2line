@@ -1,0 +1,10 @@
+#!/bin/bash -ex
+#ANDROID_SYMBOL_PATH=/Applications/Unity/Hub/Editor/2018.2.20f1/PlaybackEngines/AndroidPlayer/Variations/il2cpp/Release/Symbols/armeabi-v7a/libunity.sym.so
+ANDROID_SYMBOL_PATH=/Users/user/crash/android/1.1.2/armeabi-v7a
+SYMBOL_FILE=libil2cpp.so
+#SYMBOL_FILE=libunity.so
+NDK_TOOLCHAIN=/Users/user/dev/android-ndk-r16b/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin
+for addr in "$@"
+do
+$NDK_TOOLCHAIN/arm-linux-androideabi-addr2line -f -C -e $ANDROID_SYMBOL_PATH/$SYMBOL_FILE $addr
+done

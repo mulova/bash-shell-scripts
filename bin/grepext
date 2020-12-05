@@ -1,0 +1,3 @@
+EXT=$1
+PATTERN=$2
+grep -R --include \*.${EXT} ${PATTERN} *

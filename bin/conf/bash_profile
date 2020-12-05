@@ -1,0 +1,37 @@
+export IMAGE_MAGICK=/opt/ImageMagick/bin
+export UNITY2019=/Applications/Unity/Hub/Editor/2019
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+export ANDROID_SDK=$UNITY2019/PlaybackEngines/AndroidPlayer/SDK
+export ANDROID_SDK=~/Library/Android/sdk
+
+PATH=$PATH:/Applications/Spine/Spine.app/Contents/MacOS:~/dev/bin:/.local/bin:~/dev/apache-ant-1.9.6/bin:~/dev/android-sdk-macosx/tools:~/dev/gradle-2.6/bin:~/dev/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/arm-linux-androideabi/bin:/bin:$IMAGE_MAGICK:/Users/mulova/dev/android-sdk-macosx/platform-tools:$JAVA_HOME/bin:$ANDROID_SDK/platform-tools:$ANDROID_SDK/build-tools/28.0.3
+PS1="\\W\\$ "
+launchctl setenv IMAGE_MAGICK $IMAGE_MAGICK
+#PYTHONPATH=/usr/lib/python2.7
+#DISPLAY=/private/tmp/com.apple.launchd.OQV2KWqGVa/org.macosforge.xquartz:0
+
+alias bb3='cd /Users/user/work/bubble3-client'
+alias ios='cd /Users/user/work/projectm'
+alias jenkins='ssh jenkins@192.168.0.178'
+alias monodevelop='/Applications/Unity55/MonoDevelop.app/Contents/MacOS/monodevelop &'
+
+alias unity='unity54'
+alias unity51='/Applications/Unity51/Unity.app/Contents/MacOS/Unity &'
+alias unity54='/Applications/Unity54/Unity.app/Contents/MacOS/Unity &'
+alias unity55='/Applications/Unity55/Unity.app/Contents/MacOS/Unity &'
+alias vpn_alpha='ssh -D 9999 sshonly@52.69.98.105'
+alias vpn_debug='ssh -D 9999 sshonly@52.68.223.57'
+alias hotel='cd /Users/mulova/workspace/board/hotel_client'
+alias bullet='cd /Users/mulova/workspace/bullet'
+alias svw='cd /Users/mulova/workspace/svw/kakao_android'
+
+set -o vi
+
+##
+# Your previous /Users/mulova/.bash_profile file was backed up as /Users/mulova/.bash_profile.macports-saved_2016-10-18_at_11:18:04
+##
+
+# MacPorts Installer addition on 2016-10-18_at_11:18:04: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+

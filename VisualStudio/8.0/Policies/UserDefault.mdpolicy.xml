@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Policies>
+  <PolicySet name="User Default" id="UserDefault">
+    <TextStylePolicy inheritsSet="Default" inheritsScope="text/plain" scope="text/plain" />
+    <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
+    <CSharpFormattingPolicy inheritsSet="Default" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+    <DotNetNamingPolicy inheritsSet="Default" />
+  </PolicySet>
+</Policies>

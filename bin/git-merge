@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ -z "$2" ]; then
+	SRC=development
+    BRANCH=$1
+else
+	SRC=$1
+    BRANCH=$2
+fi
+
+
+git --no-optional-locks fetch origin $BRANCH:$BRANCH
+git fetch origin $SRC:$BRANCH
+git push -ff -v --set-upstream origin $BRANCH:$BRANCH
