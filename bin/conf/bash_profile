@@ -1,37 +1,45 @@
-export IMAGE_MAGICK=/opt/ImageMagick/bin
-export UNITY2019=/Applications/Unity/Hub/Editor/2019
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-export ANDROID_SDK=$UNITY2019/PlaybackEngines/AndroidPlayer/SDK
-export ANDROID_SDK=~/Library/Android/sdk
+export PYENV_ROOT="$HOME/.pyenv"
 
-PATH=$PATH:/Applications/Spine/Spine.app/Contents/MacOS:~/dev/bin:/.local/bin:~/dev/apache-ant-1.9.6/bin:~/dev/android-sdk-macosx/tools:~/dev/gradle-2.6/bin:~/dev/android-ndk-r10e/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/arm-linux-androideabi/bin:/bin:$IMAGE_MAGICK:/Users/mulova/dev/android-sdk-macosx/platform-tools:$JAVA_HOME/bin:$ANDROID_SDK/platform-tools:$ANDROID_SDK/build-tools/28.0.3
-PS1="\\W\\$ "
-launchctl setenv IMAGE_MAGICK $IMAGE_MAGICK
-#PYTHONPATH=/usr/lib/python2.7
-#DISPLAY=/private/tmp/com.apple.launchd.OQV2KWqGVa/org.macosforge.xquartz:0
+function setup_env {
+    export UNITY2021=/Applications/Unity/Hub/Editor/2021
+    export JAVA_HOME=$UNITY2021/PlaybackEngines/AndroidPlayer/OpenJDK
+    export ANDROIDSDK=$UNITY2021/PlaybackEngines/AndroidPlayer/SDK
+    export NDK=$UNITY2021/PlaybackEngines/AndroidPlayer/NDK
+    NDK_TOOLCHAIN_ARM64=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/arm-linux-androideabi/bin
+    PATH=~/.local/bin:$ANDROIDSDK/platform-tools:$ANDROIDSDK/tools:$ANDROIDSDK/build-tools/28.0.3:$NDK_TOOLCHAIN_ARM64:/bin:$JAVA_HOME/bin:~/dev/bin:$PATH
+}
 
-alias bb3='cd /Users/user/work/bubble3-client'
-alias ios='cd /Users/user/work/projectm'
-alias jenkins='ssh jenkins@192.168.0.178'
-alias monodevelop='/Applications/Unity55/MonoDevelop.app/Contents/MacOS/monodevelop &'
+PROMPT='%F{blue}%2~%f %* %# '
 
-alias unity='unity54'
-alias unity51='/Applications/Unity51/Unity.app/Contents/MacOS/Unity &'
-alias unity54='/Applications/Unity54/Unity.app/Contents/MacOS/Unity &'
-alias unity55='/Applications/Unity55/Unity.app/Contents/MacOS/Unity &'
-alias vpn_alpha='ssh -D 9999 sshonly@52.69.98.105'
-alias vpn_debug='ssh -D 9999 sshonly@52.68.223.57'
-alias hotel='cd /Users/mulova/workspace/board/hotel_client'
-alias bullet='cd /Users/mulova/workspace/bullet'
-alias svw='cd /Users/mulova/workspace/svw/kakao_android'
+#export IMAGE_MAGICK=/opt/ImageMagick/bin
+#launchctl setenv IMAGE_MAGICK $IMAGE_MAGICK
 
 set -o vi
-
-##
-# Your previous /Users/mulova/.bash_profile file was backed up as /Users/mulova/.bash_profile.macports-saved_2016-10-18_at_11:18:04
-##
+bindkey "^R" history-incremental-search-backward
 
 # MacPorts Installer addition on 2016-10-18_at_11:18:04: adding an appropriate PATH variable for use with MacPorts.
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 # Finished adapting your PATH environment variable for use with MacPorts.
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+if command -v pyenv-virtualenv-init 1>/dev/null 2>&1; then
+  eval "$(pyenv virtualenv-init -)"
+fi
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/user/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/user/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/user/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/user/opt/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
