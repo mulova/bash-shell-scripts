@@ -15,24 +15,16 @@ def skip_until_crash(file):
             return
 
 def find_lib(lib_name):
-    dirs = [ f'{ANDROID_SYMBOL_PATH}/{ARCH}', ARCH, '' ]
+    dirs = [ ARCH, '', f'{ANDROID_SYMBOL_PATH}/{ARCH}' ]
     exts = [ '.sym.so', '.so' ]
     for ext in exts:
-        candidate = f'{ANDROID_SYMBOL_PATH}/{ARCH}/lib{lib_name}.sym.so'
-        if os.path.isfile(candidate):
-            return candidate
-        candidate = f'{ARCH}/lib{lib_name}.sym.so'
-        if os.path.isfile(candidate):
-            return candidate
-        candidate = f'{ARCH}/lib{lib_name}.so'
-        if os.path.isfile(candidate):
-            return candidate
-        candidate = f'lib{lib_name}.sym.so'
-        if os.path.isfile(candidate):
-            return candidate
-        candidate = f'lib{lib_name}.so'
-        if os.path.isfile(candidate):
-            return candidate
+        for dir in dirs:
+            if dir:
+                candidate = f'{dir}/lib{lib_name}{ext}'
+            else:
+                candidate = f'lib{lib_name}{ext}'
+            if os.path.isfile(candidate):
+                return candidate
     return None
 
 def symbolize_line(line):
@@ -80,7 +72,7 @@ stack_color='\033[93m'
 compile = re.compile(r'.+(?P<no>#[0-9]+) pc (?P<addr>\w+)\s+.+lib(?P<lib>[\w]+)\.so')
 parser = argparse.ArgumentParser(description='Symbolicate crash logs from android logcat')
 parser.add_argument('logfile')#, nargs='?')
-parser.add_argument('--arch', default=64, help='32 or 64')
+parser.add_argument('--arch', default=64, choices=['32', '64'])
 parser.add_argument('--unityVer', help='unity version such as "2021.1.0f1"')
 parser.add_argument('--ndk', help='ndk path')
 parser.add_argument('--symboldir', help="directory path containing '[armeabi-v7a or arm64-v8a]/lib[...].sym.so'")
